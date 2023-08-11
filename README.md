@@ -35,7 +35,7 @@ window.addEventListener("message", ({ data }) => {
 
 #### By default, "playdeck" sends "{playback: {method: "play"}}" after pressing the play button in the playdeck-menu
 
-#### In the following example, data transfer options are considered, as well as method calls in our Wrapper.
+#### In the following example, data transfer options and method calls are considered in our Wrapper.
 
 ```javascript
 const parent = window.parent.window;
@@ -53,14 +53,14 @@ loading(100); // It will call the wrapper method, which will start rendering the
 /** Get telegram user id & nickname @return {Object} `{"playdeck": {"method": "getUser", "value": {\"id\":\"74882337\",\"username\":\"Jack\"}}}`*/
   getUser: () => Object
 
-  /** Whether or not the bottom menu is open. Use to disable the game, while user is at the menu. @return {"playdeck": { "method": "isOpen", "value": boolean}}  */
+  /** Whether or not the bottom menu is open. Use to disable the game while a user is in the menu. @return {"playdeck": { "method": "isOpen", "value": boolean}}  */
   getPlaydeckState: () => boolean
 
   /** Set Loader Progress.
    * - Use `loading(pct)`, to customize the bottom progress bar, pct in % [0..100]. Use this if you have a loader.
    * - **OR**
-   * - Use `loading()` to start animation from 0% to 80% and then wait
-   * - Use `loading(100)` when all your assets has been downloaded, to make Play button available.
+   * - Use `loading()` to start the animation from 0% to 80% and then wait
+   * - Use `loading(100)` when all your assets have been downloaded to make the Play button available.
    * @param {number | undefined} pct */
   loading: (pct: number | undefined) => void
 
@@ -76,7 +76,7 @@ loading(100); // It will call the wrapper method, which will start rendering the
   /**  Get Score from the card @return \{\"playdeck\": {"method":"getScore" , "value": {\"position\":1,\"score\":73}}} **OR** \{"playdeck": {"method":"getScore", value: {"error":{"type":"OBJECT_NOT_FOUND","message":"Game score not found","error":true}}}} */
   getScore: () => Object
 
-  /** Set Data - use to save arbitary data in between sessions.
+  /** Set Data - use to save arbitrary data in between sessions.
    * @param {string} data - value
    * @param {string} key - key name */
   setData: (key: string, data: string) => void
@@ -86,7 +86,7 @@ loading(100); // It will call the wrapper method, which will start rendering the
   getData: (key: string) => Object
 ```
 
-> Obviously you can't call the method directly. We have saved the logic of constructing data for messages.
+> Obviously, you can't call the method directly. We have saved the logic of constructing data for messages.
 > For example, you want to use the `loading` method. To do this, you need to create an object with 2 fields: `method`, `value`
 > Where the value of the `method` field will be the name of the method to be called, and the `value` field will be the loading state data.
 
