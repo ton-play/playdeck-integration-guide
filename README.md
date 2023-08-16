@@ -6,6 +6,11 @@ The process of passing data between your game and our Wrapper is via `window.pos
 
 > Your game can both transmit messages and listen to them.
 
+### FAQ
+Q: How do I know that my game is running inside telegram? 
+
+A: In case of iframe launch there is no way to detect it, but we pass `telegram=true` query parameter into every game url so you can check it and find out telegram startup  
+
 #### Let's look at an example of listening to messages and processing data from our Wrapper.
 
 ```javascript
