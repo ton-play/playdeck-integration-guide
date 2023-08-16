@@ -102,3 +102,168 @@ const payload = {
 
 parent.postMessage(payload, "*");
 ```
+
+## Every method usage examples
+
+`getUser: () => Object`
+```javascript
+// To get user data, you must first request this data
+// via postMessage from our integration environment.
+const { parent } = window;
+parent.postMessage({ playdeck: { method: "getUser" } }, "*");
+
+
+// Then, to get this data, you need to create an event handler.
+window.addEventListener("message", ({ data }) => {
+  const { playdeck } = data;
+  // All the data that our integration environment
+  // passes is in an object whose key will be playdeck.
+  if (!playdeck) return;
+
+  // The `method` field stores a value that indicates
+  // what the integration environment is responding to.
+  if (playdeck.method === "getUser") {
+    // In this block, we can read data from the `value` field.
+    window.playdeckUser = playdeck.value;
+  }
+})
+```
+
+`gameEnd: () => void`
+```javascript
+// This method is sent unilaterally only to our integration environment.
+// It signals to our integration environment that the game has been over.
+// After that we demonstrate the popup.
+
+const { parent } = window;
+parent.postMessage({ playdeck: { method: "gameEnd" } }, "*");
+```
+
+`loading: (pct: number | undefined) => void`
+```javascript
+// This method is sent unilaterally only to our integration environment.
+// Causes our integration environment to display the download percentage of your game.
+// Accepts values from 0 to 100 as a percentage. If you do not pass a value when calling at all,
+// then the method will automatically simulate loading up to 80%.
+// In order for the progressbar to become a Play button, you need to pass the value 100.
+
+const { parent } = window;
+
+// We call the loading method without passing a value
+// so that the integration environment starts displaying the loading process
+parent.postMessage({ playdeck: { method: "loading" } }, "*");
+// Artificially slow down the download completion call by 1 second
+setTimeout(() => {
+  parent.postMessage({ playdeck: { method: "loading", value: 100 } }, "*");
+}, 1000);
+```
+
+`getPlaydeckState: () => boolean`
+```javascript
+// This method will return you information about
+// whether our integration environment overlay is currently open.
+
+const { parent } = window;
+parent.postMessage({ playdeck: { method: "getPlaydeckState" } }, "*");
+
+window.addEventListener("message", ({ data }) => {
+  const { playdeck } = data;
+  if (!playdeck) return;
+
+  if (playdeck.method === "getPlaydeckState") {
+    window.isPlayDeckOpened = playdeck.value; // `value` === true or false;
+  }
+})
+
+```
+
+`getUserLocale: () => Object`
+```javascript
+// This method will query our integration framework for information about the user's locale.
+
+const { parent } = window;
+parent.postMessage({ playdeck: { method: "getUserLocale" } }, "*");
+
+window.addEventListener("message", ({ data }) => {
+  const { playdeck } = data;
+  if (!playdeck) return;
+
+  if (playdeck.method === "getUserLocale") {
+    window.userLocale = playdeck.value;
+  }
+})
+```
+
+`setScore: (score: number, force: boolean = false) => void`
+```javascript
+// This method will allow you to store progress data. For this we use our internal database.
+// To get previously saved data, use the `getScore` method.
+// The method works one-way and does not require reading the response.
+// Set `force` flag to `true` if the high score is allowed to decrease.
+// This can be useful when fixing mistakes or banning cheaters
+
+const { parent } = window;
+
+parent.postMessage(
+  { playdeck:
+    {
+      method: "setScore",
+      value: "score",
+      isForce: false,
+    }
+  }
+, "*");
+```
+
+`getScore: () => Object`
+```javascript
+// This method allows you to read a previously saved count value.
+// Use the `setScore` method to store the score.
+
+const { parent } = window;
+parent.postMessage({ playdeck: { method: "getScore" } }, "*");
+
+window.addEventListener("message", ({ data }) => {
+  const { playdeck } = data;
+  if (!playdeck) return;
+
+  if (playdeck.method === "getScore") {
+    window.playdeckScore = playdeck.value;
+  }
+})
+```
+`setData: (key: string, data: string) => void`
+```javascript
+// This method will allow you to store any data you may need.
+// Difference from the `setScore` method is that we use the cloud for `setData`.
+// Data is saved by key. To retrieve previously saved data, use the `getData` method.
+
+const { parent } = window;
+
+parent.postMessage(
+  { playdeck:
+    {
+      method: "setData",
+      key: key,
+      value: yourData,
+    }
+  }
+, "*");
+```
+`getData: (key: string) => Object`
+```javascript
+// This method allows you to read previously written data by key.
+// Use the `setData` method to save the data.
+
+const { parent } = window;
+parent.postMessage({ playdeck: { method: "getData", key: key } }, "*");
+
+window.addEventListener("message", ({ data }) => {
+  const { playdeck } = data;
+  if (!playdeck) return;
+
+  if (playdeck.method === "getData") {
+    window.customData = playdeck.value;
+  }
+})
+```
