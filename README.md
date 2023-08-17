@@ -7,9 +7,18 @@ The process of passing data between your game and our Wrapper is via `window.pos
 > Your game can both transmit messages and listen to them.
 
 ### FAQ
-Q: How do I know that my game is running inside telegram? 
+----
+Q: How do I know that my game is running inside telegram?
 
-A: In case of iframe launch there is no way to detect it, but we pass `telegram=true` query parameter into every game url so you can check it and find out telegram startup  
+A: In case of iframe launch there is no way to detect it, but we pass `telegram=true` query parameter into every game url so you can check it and find out telegram startup
+
+----
+
+Q: How to determine exact response within multiple `getData()` calls ?
+
+A: Each `getData()` response contains `key` field according to requested data `key` 
+
+----
 
 #### Let's look at an example of listening to messages and processing data from our Wrapper.
 
@@ -87,7 +96,7 @@ loading(100); // It will call the wrapper method, which will start rendering the
   setData: (key: string, data: string) => void
 
   /** Get Data - use to obtain saved data.
-   * @param {string} key - key name @return `{"playdeck":{"method":"getData", "value": {}}}` **OR** `{"playdeck":{"method": "getData", "value": {data: "2", key: "numOfGames"}}}` */
+   * @param {string} key - key name @return `{"playdeck":{"method":"getData", "value": {}}}` **OR** `{"playdeck":{"method": "getData", "value": "value", "key": "key"}}` */
   getData: (key: string) => Object
 ```
 
@@ -268,7 +277,11 @@ window.addEventListener("message", ({ data }) => {
   if (!playdeck) return;
 
   if (playdeck.method === "getData") {
-    window.customData = playdeck.value;
+    if (playdeck.key === "x") {
+      window.customData = playdeck.value;
+    } else {
+      window.anotherCustomData = playdeck.value;
+    }
   }
 })
 ```
