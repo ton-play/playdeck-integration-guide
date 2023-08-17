@@ -19,6 +19,9 @@ Q: How to determine exact response within multiple `getData()` calls ?
 A: Each `getData()` response contains `key` field according to requested data `key` 
 
 ----
+Q: How much data can I store via `setData()` ?
+
+A: We have limit for `data` = 10Kb and `key` length <= 50 symbols
 
 #### Let's look at an example of listening to messages and processing data from our Wrapper.
 
@@ -91,8 +94,8 @@ loading(100); // It will call the wrapper method, which will start rendering the
   getScore: () => Object
 
   /** Set Data - use to save arbitrary data in between sessions.
-   * @param {string} data - value
-   * @param {string} key - key name */
+   * @param {string} data - value (limit 10Kb)
+   * @param {string} key - key name (length limit 50 symbols) */
   setData: (key: string, data: string) => void
 
   /** Get Data - use to obtain saved data.
