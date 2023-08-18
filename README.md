@@ -16,7 +16,7 @@ A: In case of iframe launch there is no way to detect it, but we pass `telegram=
 
 Q: How to determine exact response within multiple `getData()` calls ?
 
-A: Each `getData()` response contains `key` field according to requested data `key` 
+A: Each `getData()` response contains `key` field according to requested data `key`
 
 ----
 Q: How much data can I store via `setData()` ?
@@ -122,10 +122,12 @@ parent.postMessage(payload, "*");
 
 ## Every method usage examples
 
-`getUser: () => Object`
+`getUser: () => { id, username, token }`
 ```javascript
 // To get user data, you must first request this data
 // via postMessage from our integration environment.
+// The method will also return a token that you can use
+// to authenticate with your server.
 const { parent } = window;
 parent.postMessage({ playdeck: { method: "getUser" } }, "*");
 
@@ -143,7 +145,7 @@ window.addEventListener("message", ({ data }) => {
     // In this block, we can read data from the `value` field.
     window.playdeckUser = playdeck.value;
   }
-})
+});
 ```
 
 `gameEnd: () => void`
@@ -190,8 +192,7 @@ window.addEventListener("message", ({ data }) => {
   if (playdeck.method === "getPlaydeckState") {
     window.isPlayDeckOpened = playdeck.value; // `value` === true or false;
   }
-})
-
+});
 ```
 
 `getUserLocale: () => Object`
@@ -208,7 +209,7 @@ window.addEventListener("message", ({ data }) => {
   if (playdeck.method === "getUserLocale") {
     window.userLocale = playdeck.value;
   }
-})
+});
 ```
 
 `setScore: (score: number, force: boolean = false) => void`
@@ -247,7 +248,7 @@ window.addEventListener("message", ({ data }) => {
   if (playdeck.method === "getScore") {
     window.playdeckScore = playdeck.value;
   }
-})
+});
 ```
 `setData: (key: string, data: string) => void`
 ```javascript
@@ -286,5 +287,5 @@ window.addEventListener("message", ({ data }) => {
       window.anotherCustomData = playdeck.value;
     }
   }
-})
+});
 ```
