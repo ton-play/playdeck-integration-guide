@@ -23,6 +23,13 @@ Q: How much data can I store via `setData()` ?
 
 A: We have limit for `data` = 10Kb and `key` length <= 50 symbols
 
+----
+Q: How do I know that user in my game is properly authenticated? 
+
+A: You have the method `getUser()` that returning `token` field . It is JWT format of token and you can easily [read it](https://docs.tonplay.io/digital-assets-api/authentication/decode-jwt) and [validate](https://docs.tonplay.io/digital-assets-api/authentication/validate-user-jwt) over API or inplace with public key
+
+----
+
 #### Let's look at an example of listening to messages and processing data from our Wrapper.
 
 ```javascript
