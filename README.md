@@ -24,7 +24,7 @@ Q: How much data can I store via `setData()` ?
 A: We have limit for `data` = 10Kb and `key` length <= 50 symbols
 
 ----
-Q: How do I know that user in my game is properly authenticated? 
+Q: How do I know that user in my game is properly authenticated?
 
 A: You have the method `getUser()` that returning `token` field . It is JWT format of token and you can easily [read it](https://docs.tonplay.io/digital-assets-api/authentication/decode-jwt) and [validate](https://docs.tonplay.io/digital-assets-api/authentication/validate-user-jwt) over API or inplace with public key
 
@@ -141,7 +141,7 @@ parent.postMessage({ playdeck: { method: "getUser" } }, "*");
 
 // Then, to get this data, you need to create an event handler.
 window.addEventListener("message", ({ data }) => {
-  const { playdeck } = data;
+  const playdeck = data?.playdeck;
   // All the data that our integration environment
   // passes is in an object whose key will be playdeck.
   if (!playdeck) return;
@@ -193,7 +193,7 @@ const { parent } = window;
 parent.postMessage({ playdeck: { method: "getPlaydeckState" } }, "*");
 
 window.addEventListener("message", ({ data }) => {
-  const { playdeck } = data;
+  const playdeck = data?.playdeck;
   if (!playdeck) return;
 
   if (playdeck.method === "getPlaydeckState") {
@@ -210,7 +210,7 @@ const { parent } = window;
 parent.postMessage({ playdeck: { method: "getUserLocale" } }, "*");
 
 window.addEventListener("message", ({ data }) => {
-  const { playdeck } = data;
+  const playdeck = data?.playdeck;
   if (!playdeck) return;
 
   if (playdeck.method === "getUserLocale") {
@@ -249,7 +249,7 @@ const { parent } = window;
 parent.postMessage({ playdeck: { method: "getScore" } }, "*");
 
 window.addEventListener("message", ({ data }) => {
-  const { playdeck } = data;
+  const playdeck = data?.playdeck;
   if (!playdeck) return;
 
   if (playdeck.method === "getScore") {
@@ -275,7 +275,7 @@ parent.postMessage(
   }
 , "*");
 ```
-`getData: (key: string) => Object`
+`getData: (key: string) => { key: key, data: data }`
 ```javascript
 // This method allows you to read previously written data by key.
 // Use the `setData` method to save the data.
@@ -284,7 +284,7 @@ const { parent } = window;
 parent.postMessage({ playdeck: { method: "getData", key: key } }, "*");
 
 window.addEventListener("message", ({ data }) => {
-  const { playdeck } = data;
+  const playdeck = data?.playdeck;
   if (!playdeck) return;
 
   if (playdeck.method === "getData") {
