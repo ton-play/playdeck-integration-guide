@@ -6,6 +6,11 @@ The process of passing data between your game and our Wrapper is via `window.pos
 
 > Your game can both transmit messages and listen to them.
 
+### Methods that must be implemented:
+
+- `loading()` . You need to call loading method within 0-3 sec from game loading started. This will be a signal to our wrapper that game start loading
+- `setScore()`. It is preferable that your game use scores after each level/game over/session etc depending on mechanics
+
 ### FAQ
 ----
 Q: How do I know that my game is running inside telegram?
@@ -28,6 +33,14 @@ Q: How do I know that user in my game is properly authenticated?
 
 A: You have the method `getUser()` that returning `token` field . It is JWT format of token and you can easily [read it](https://docs.tonplay.io/digital-assets-api/authentication/decode-jwt) and [validate](https://docs.tonplay.io/digital-assets-api/authentication/validate-user-jwt) over API or inplace with public key
 
+----
+Q: How do I know that the Play button has been pressed?
+
+A: By clicking on the Play button Wrapper sends a message. You can listen to it just like the rest of the methods.
+The wrapper will send a payload with the following structure:
+```
+{ playdeck: { method: "play" } }
+```
 ----
 
 #### Let's look at an example of listening to messages and processing data from our Wrapper.
