@@ -6,7 +6,7 @@ The process of passing data between your game and our Wrapper is via `window.pos
 
 > Your game can both transmit messages and listen to them.
 
-### Methods that must be implemented:
+### Methods that must/should be implemented:
 
 - `loading()` . You need to call loading method within 0-3 sec from game loading started. This will be a signal to our wrapper that game start loading
 - `setScore()`. It is preferable that your game use scores after each level/game over/session etc depending on mechanics
