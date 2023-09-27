@@ -113,6 +113,10 @@ loading(100); // It will call the wrapper method, which will start rendering the
   /**  Get Score from the card @return \{\"playdeck\": {"method":"getScore" , "value": {\"position\":1,\"score\":73}}} **OR** \{"playdeck": {"method":"getScore", value: {"error":{"type":"OBJECT_NOT_FOUND","message":"Game score not found","error":true}}}} */
   getScore: () => Object
 
+    /**  Get Global Score (maximum top 50) from the card @return \{\"playdeck\": {"method":"getScore" , "value": [{\"position\":1,\"score\":73}, \"username\":\"john\" ]}} 
+    */
+  getGlobalScore: (top: number = 10) => Object
+
   /** Set Data - use to save arbitrary data in between sessions.
    * @param {string} data - value (limit 10Kb)
    * @param {string} key - key name (length limit 50 symbols) */
