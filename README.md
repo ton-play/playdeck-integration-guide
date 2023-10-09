@@ -43,6 +43,10 @@ The wrapper will send a payload with the following structure:
 ```
 ----
 
+Q: How will I know that the download has been completed?
+
+A: Upon reaching the end of the loading, the Wrapper will fire event `loaded`.
+
 #### Let's look at an example of listening to messages and processing data from our Wrapper.
 
 ```javascript
@@ -113,7 +117,7 @@ loading(100); // It will call the wrapper method, which will start rendering the
   /**  Get Score from the card @return \{\"playdeck\": {"method":"getScore" , "value": {\"position\":1,\"score\":73}}} **OR** \{"playdeck": {"method":"getScore", value: {"error":{"type":"OBJECT_NOT_FOUND","message":"Game score not found","error":true}}}} */
   getScore: () => Object
 
-    /**  Get Global Score (maximum top 50) from the card @return \{\"playdeck\": {"method":"getScore" , "value": [{\"position\":1,\"score\":73}, \"username\":\"john\" ]}} 
+    /**  Get Global Score (maximum top 50) from the card @return \{\"playdeck\": {"method":"getScore" , "value": [{\"position\":1,\"score\":73}, \"username\":\"john\" ]}}
     */
   getGlobalScore: (top: number = 10) => Object
 
@@ -125,6 +129,16 @@ loading(100); // It will call the wrapper method, which will start rendering the
   /** Get Data - use to obtain saved data.
    * @param {string} key - key name @return `{"playdeck":{"method":"getData", "value": {}}}` **OR** `{"playdeck":{"method": "getData", "value": "value", "key": "key"}}` */
   getData: (key: string) => Object
+
+  /**
+  * Device aware links opener (inside telegram clients only)
+  * On Desktop clients open link in an external browser
+  * On Mobile clients:
+  * -- if link is telegram link (t.me, telegram.me) --> open inside internal telegram browser
+  * -- if link to external resource (google.com, etc) --> open in an external browser
+  * @param {string} url - url to resource that need to be opened
+  */
+  openTelegramLink: (url:  string) =>  void
 ```
 
 > Obviously, you can't call the method directly. We have saved the logic of constructing data for messages.
@@ -312,4 +326,34 @@ window.addEventListener("message", ({ data }) => {
     }
   }
 });
+```
+
+```javascript
+// This method allows you to open links from within telegram clients
+// Method is device aware:
+// On Desktop clients links always open in an external browser (user's default browser in OS)
+// On mobile clients:
+// -- if link is telegram link (t.me, telegram.me) --> opens inside // telegram's internal browser
+// -- if link to external resource (google.com, etc) --> open in an // external browser
+
+const { parent } =  window;
+
+// Desktop client opens such link in an extrnal browser
+parent.postMessage({
+  playdeck: {
+  method:  'openTelegramLink',
+    value:  'https://t.me/playdeckbot/market'
+  }
+}, "*")
+
+
+// Mobile client opens such link in an internal telegram browser
+parent.postMessage({
+
+playdeck: {
+  method:  'openTelegramLink',
+    value:  'https://t.me/playdeckbot/market'
+  }
+}, "*")
+  
 ```
