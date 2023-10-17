@@ -166,7 +166,7 @@ parent.postMessage(payload, "*");
 
 ## Every method usage examples
 
-`getUser: () => { id, username, token }`
+[`getUser: () => { id, username, token }`](#get-user)
 ```javascript
 // To get user data, you must first request this data
 // via postMessage from our integration environment.
@@ -192,7 +192,7 @@ window.addEventListener("message", ({ data }) => {
 });
 ```
 
-`gameEnd: () => void`
+[`gameEnd: () => void`](#game-end)
 ```javascript
 // This method is sent unilaterally only to our integration environment.
 // It signals to our integration environment that the game has been over.
@@ -202,7 +202,7 @@ const { parent } = window;
 parent.postMessage({ playdeck: { method: "gameEnd" } }, "*");
 ```
 
-`loading: (pct: number | undefined) => void`
+[`loading: (pct: number | undefined) => void`](#loading)
 ```javascript
 // This method is sent unilaterally only to our integration environment.
 // Causes our integration environment to display the download percentage of your game.
@@ -221,7 +221,7 @@ setTimeout(() => {
 }, 1000);
 ```
 
-`getPlaydeckState: () => boolean`
+[`getPlaydeckState: () => boolean`](#get-playdeck-state)
 ```javascript
 // This method will return you information about
 // whether our integration environment overlay is currently open.
@@ -239,7 +239,7 @@ window.addEventListener("message", ({ data }) => {
 });
 ```
 
-`getUserLocale: () => Object`
+[`getUserLocale: () => Object`](#get-user-locale)
 ```javascript
 // This method will query our integration framework for information about the user's locale.
 
@@ -256,7 +256,7 @@ window.addEventListener("message", ({ data }) => {
 });
 ```
 
-`setScore: (score: number, force: boolean = false) => void`
+[`setScore: (score: number, force: boolean = false) => void`](#set-score)
 ```javascript
 // This method will allow you to store progress data. For this we use our internal database.
 // To get previously saved data, use the `getScore` method.
@@ -277,7 +277,7 @@ parent.postMessage(
 , "*");
 ```
 
-`getScore: () => Object`
+[`getScore: () => Object`](#get-score)
 ```javascript
 // This method allows you to read a previously saved count value.
 // Use the `setScore` method to store the score.
@@ -294,7 +294,7 @@ window.addEventListener("message", ({ data }) => {
   }
 });
 ```
-`setData: (key: string, data: string) => void`
+[`setData: (key: string, data: string) => void`](#set-data)
 ```javascript
 // This method will allow you to store any data you may need.
 // Difference from the `setScore` method is that we use the cloud for `setData`.
@@ -312,7 +312,7 @@ parent.postMessage(
   }
 , "*");
 ```
-`getData: (key: string) => { key: key, data: data }`
+[`getData: (key: string) => { key: key, data: data }`](#get-data)
 ```javascript
 // This method allows you to read previously written data by key.
 // Use the `setData` method to save the data.
@@ -334,7 +334,7 @@ window.addEventListener("message", ({ data }) => {
 });
 ```
 
-`openTelegramLink: (url:  string) =>  void`
+[`openTelegramLink: (url:  string) =>  void`](#open-telegram-link)
 ```javascript
 // This method allows you to open links from within telegram clients
 // Method is device aware:
@@ -365,7 +365,7 @@ playdeck: {
   
 ```
 
-`sendAnalytics: (event:  Event) =>  void`
+[`sendAnalytics: (event:  Event) =>  void`](#send-analytics)
 ```javascript
 /* This method allows you to send game events to our integration environment
  * Note, that user_properties.telegramId will be set by our platform
