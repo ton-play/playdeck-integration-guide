@@ -139,6 +139,12 @@ loading(100); // It will call the wrapper method, which will start rendering the
   * @param {string} url - url to resource that need to be opened
   */
   openTelegramLink: (url:  string) =>  void
+
+  /**
+  * Send game event to our intergation platform
+  * @param {Event} event - event object with analytics
+  */
+  sendAnalytics: (event:  Event) =>  void
 ```
 
 > Obviously, you can't call the method directly. We have saved the logic of constructing data for messages.
@@ -328,6 +334,7 @@ window.addEventListener("message", ({ data }) => {
 });
 ```
 
+`openTelegramLink: (url:  string) =>  void`
 ```javascript
 // This method allows you to open links from within telegram clients
 // Method is device aware:
@@ -355,5 +362,35 @@ playdeck: {
     value:  'https://t.me/playdeckbot/market'
   }
 }, "*")
+  
+```
+
+`sendAnalytics: (event:  Event) =>  void`
+```javascript
+/* This method allows you to send game events to our integration environment
+ * Note, that user_properties.telegramId will be set by our platform
+*/
+
+
+const { parent } =  window;
+
+type Event = {
+  name: string;
+  type: string;
+  user_properties: Record<string, any>;
+  event_properties: {
+    name: string;
+    [key: string]: any;
+  };
+}
+
+const event_example: Event = {
+  type: 'click',
+  user_properties: {},
+  event_properties: {
+    name: 'play_button'
+  }
+}
+parent.postMessage({ playdeck: { method:  'sendAnalytics', value:  event_example } }, "*")
   
 ```
