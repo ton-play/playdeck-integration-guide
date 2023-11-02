@@ -74,7 +74,7 @@ window.addEventListener("message", ({ data }) => {
 });
 ```
 
-#### By default, "playdeck" sends "{playback: {method: "play"}}" after pressing the play button in the playdeck-menu
+#### By default, "playdeck" sends "{playdeck: {method: "play"}}" after pressing the play button in the playdeck-menu
 
 #### In the following example, data transfer options and method calls are considered in our Wrapper.
 
@@ -91,43 +91,94 @@ loading(100); // It will call the wrapper method, which will start rendering the
 #### Available Wrapper methods
 
 ```javascript
-/** Get telegram user id & nickname @return {Object} `{"playdeck": {"method": "getUser", "value": {\"id\":\"74882337\",\"username\":\"Jack\"}}}`*/
+  /** 
+   * Get telegram user id & nickname
+   * @deprecated - use getToken if you need to get user token
+   * @return {Object} 
+   * `{"playdeck": 
+   *    {"method": "getUser", "value": {\"id\":\"74882337\",\"username\":\"Jack\"}}
+   *  }`
+   * */
   getUser: () => Object
 
-  /** Whether or not the bottom menu is open. Use to disable the game while a user is in the menu. @return {"playdeck": { "method": "isOpen", "value": boolean}}  */
+  /** 
+   * Whether or not the bottom menu is open. Use to disable the game while a user is in the menu. @return {"playdeck": { "method": "isOpen", "value": boolean}}  
+  */
   getPlaydeckState: () => boolean
 
-  /** Set Loader Progress.
-   * - Use `loading(pct)`, to customize the bottom progress bar, pct in % [0..100]. Use this if you have a loader.
-   * - **OR**
+  /** 
+   * Set Loader Progress.
+   * Use `loading(pct)`, to customize the bottom progress bar, pct in % [0..100]. 
+   * Use this if you have a loader. **OR**
    * - Use `loading()` to start the animation from 0% to 80% and then wait
    * - Use `loading(100)` when all your assets have been downloaded to make the Play button available.
-   * @param {number | undefined} pct */
+   * @param {number | undefined} pct 
+  */
   loading: (pct: number | undefined) => void
 
   /** Call a gameEnd */
   gameEnd: () => void
 
-  /** Get User Locale @returns {"playdeck": {"method": "getUserLocale", "value": string}}*/
+  /** 
+   * Get User Locale 
+   * @returns {"playdeck": {"method": "getUserLocale", "value": string}}
+  */
   getUserLocale: () => Object
 
-  /**  Set Score @param {number} score @param {boolean} force - set this flag to `true` if the high score is allowed to decrease. This can be useful when fixing mistakes or banning cheaters */
+  /** 
+   * Set Score 
+   * @param {number} score 
+   * @param {boolean} force - set this flag to `true` if the high score is allowed to decrease. This can be useful when fixing mistakes or banning cheaters 
+  */
   setScore: (score: number, force: boolean = false) => void
 
-  /**  Get Score from the card @return \{\"playdeck\": {"method":"getScore" , "value": {\"position\":1,\"score\":73}}} **OR** \{"playdeck": {"method":"getScore", value: {"error":{"type":"OBJECT_NOT_FOUND","message":"Game score not found","error":true}}}} */
+  /** 
+   * Get Score from the card 
+   * @return 
+   * {"playdeck": 
+   *   {"method":"getScore" , "value": {\"position\":1,\"score\":73}}
+   * } **OR** 
+   * {"playdeck": 
+   *   { 
+   *      "method":"getScore",
+   *      value: {"error":{"type":"OBJECT_NOT_FOUND","message":"Game score not found","error":true}}
+   *   }
+   * } 
+  */
   getScore: () => Object
 
-    /**  Get Global Score (maximum top 50) from the card @return \{\"playdeck\": {"method":"getScore" , "value": [{\"position\":1,\"score\":73}, \"username\":\"john\" ]}}
-    */
+  /** 
+   * Get Global Score (maximum top 50) from the card 
+   * @return 
+   * {
+   *   "playdeck": {
+   *     "method":"getScore" , "value": [{\"position\":1,\"score\":73}, \"username\":\"john\" ]
+   *   }
+   * }
+  */
   getGlobalScore: (top: number = 10) => Object
 
-  /** Set Data - use to save arbitrary data in between sessions.
+  /** 
+   * Set Data - use to save arbitrary data in between sessions.
    * @param {string} data - value (limit 10Kb)
    * @param {string} key - key name (length limit 50 symbols) */
   setData: (key: string, data: string) => void
 
-  /** Get Data - use to obtain saved data.
-   * @param {string} key - key name @return `{"playdeck":{"method":"getData", "value": {}}}` **OR** `{"playdeck":{"method": "getData", "value": "value", "key": "key"}}` */
+  /** 
+   * Get Data - use to obtain saved data.
+   * @param {string} key - key name 
+   * @return 
+   * `{"playdeck":{
+   *   "method":"getData",
+   *   "value": {}}
+   * }` 
+   * **OR** 
+   * `{"playdeck": {
+   *   "method": "getData",
+   *   "value": "value", 
+   *   "key": "key"}
+   * }` 
+  */
   getData: (key: string) => Object
 
   /**
@@ -144,7 +195,19 @@ loading(100); // It will call the wrapper method, which will start rendering the
   * Send game event to our intergation platform
   * @param {Event} event - event object with analytics
   */
-  sendAnalytics: (event:  Event) =>  void
+  sendAnalytics: (event:  Event) => void
+
+  /**
+  * Get user profile
+  * @return {Profile} profile - user profile
+  */
+  getUserProfile: () => Profile
+
+  /**
+  * Get token
+  * @return {string} - user JWT token
+  */
+  getToken: () => string
 ```
 
 > Obviously, you can't call the method directly. We have saved the logic of constructing data for messages.
@@ -168,6 +231,7 @@ parent.postMessage(payload, "*");
 
 [`getUser: () => { id, username, token }`](#get-user)
 ```javascript
+// @deprecated - use getToken if you need to get user token
 // To get user data, you must first request this data
 // via postMessage from our integration environment.
 // The method will also return a token that you can use
@@ -393,4 +457,46 @@ const event_example: Event = {
 }
 parent.postMessage({ playdeck: { method:  'sendAnalytics', value:  event_example } }, "*")
   
+```
+
+[`getUserProfile: () => Profile`](#get-user-profile)
+```javascript
+// This method allows you to get user profile data
+
+type Profile = {
+  avatar: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  telegramId: number;
+}
+
+const { parent } = window;
+parent.postMessage({ playdeck: { method: "getUserProfile" } }, "*");
+
+window.addEventListener("message", ({ data }) => {
+  const playdeck = data?.playdeck;
+  if (!playdeck) return;
+
+  if (playdeck.method === "getUserProfile") {
+    console.log(playdeck.value) // Profile
+  }
+});
+```
+
+[`getToken: () => { token: token }`](#get-user-profile)
+```javascript
+// This method allows you to get user JWT token
+
+const { parent } = window;
+parent.postMessage({ playdeck: { method: "getToken" } }, "*");
+
+window.addEventListener("message", ({ data }) => {
+  const playdeck = data?.playdeck;
+  if (!playdeck) return;
+
+  if (playdeck.method === "getToken") {
+    console.log(playdeck.value) // { token: '123456789...' }
+  }
+});
 ```
