@@ -6,6 +6,13 @@ The process of passing data between your game and our Wrapper is via `window.pos
 
 > Your game can both transmit messages and listen to them.
 
+## Release Notes: 
+
+**Dec 8. 2023**
+
+- added [Unity integration sample](https://github.com/ton-play/playdeck-unity-integration)
+
+
 ### Methods that must/should be implemented:
 
 - `loading()` . You need to call loading method within 0-3 sec from game loading started. This will be a signal to our wrapper that game start loading
