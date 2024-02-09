@@ -39,7 +39,7 @@ A: We have limit for `data` = 10Kb and `key` length <= 50 symbols
 ----
 Q: How do I know that user in my game is properly authenticated?
 
-A: You have the method `getUser()` that returning `token` field . It is JWT format of token and you can easily [read it](https://docs.tonplay.io/digital-assets-api/authentication/decode-jwt) and [validate](https://docs.tonplay.io/digital-assets-api/authentication/validate-user-jwt) over API or inplace with public key
+A: You have the method `getUser()` that returning `token` field . It is JWT format of token and you can easily [read it](https://ton-play-1.gitbook.io/ton-play/digital-assets-api/authentication/decode-jwt) and [validate](https://ton-play-1.gitbook.io/ton-play/digital-assets-api/authentication/validate-user-jwt) over API or inplace with public key
 
 ----
 Q: How do I know that the Play button has been pressed?
