@@ -6,7 +6,7 @@ The process of passing data between your game and our Wrapper is via `window.pos
 
 > Your game can both transmit messages and listen to them.
 
-## Release Notes: 
+## Release Notes:
 
 **Dec 8. 2023**
 
@@ -17,7 +17,7 @@ The process of passing data between your game and our Wrapper is via `window.pos
 
 - `loading()` . You need to call loading method within 0-3 sec from game loading started. This will be a signal to our wrapper that game start loading
 - `setScore()`. It is preferable that your game use scores after each level/game over/session etc depending on mechanics
-- The game should consider to use correct user locale for rendering proper UI texts. You can find locale by calling `getUser()` method OR use devices locale in order of prioriry: `(navigator.languages && navigator.languages.length) ? navigator.languages[0] : navigator.language;` 
+- The game should consider to use correct user locale for rendering proper UI texts. You can find locale by calling `getUser()` method OR use devices locale in order of prioriry: `(navigator.languages && navigator.languages.length) ? navigator.languages[0] : navigator.language;`
 
 ### FAQ
 ----
@@ -39,7 +39,7 @@ A: We have limit for `data` = 10Kb and `key` length <= 50 symbols
 ----
 Q: How do I know that user in my game is properly authenticated?
 
-A: You have the method `getUser()` that returning `token` field . It is JWT format of token and you can easily [read it](https://ton-play-1.gitbook.io/ton-play/digital-assets-api/authentication/decode-jwt) and [validate](https://ton-play-1.gitbook.io/ton-play/digital-assets-api/authentication/validate-user-jwt) over API or inplace with public key
+A: You have the method `getUser()` that returning `token` field . It is JWT format of token and you can easily [read it](https://docs.tonplay.io/digital-assets-api/authentication/decode-jwt) and [validate](https://docs.tonplay.io/digital-assets-api/authentication/validate-user-jwt) over API or inplace with public key
 
 ----
 Q: How do I know that the Play button has been pressed?
@@ -99,65 +99,65 @@ loading(100); // It will call the wrapper method, which will start rendering the
 #### Available Wrapper methods
 
 ```javascript
-  /** 
+  /**
    * Get telegram user id & nickname
    * @deprecated - use getToken if you need to get user token
-   * @return {Object} 
-   * `{"playdeck": 
+   * @return {Object}
+   * `{"playdeck":
    *    {"method": "getUser", "value": {\"id\":\"74882337\",\"username\":\"Jack\"}}
    *  }`
    * */
   getUser: () => Object
 
-  /** 
-   * Whether or not the bottom menu is open. Use to disable the game while a user is in the menu. @return {"playdeck": { "method": "isOpen", "value": boolean}}  
+  /**
+   * Whether or not the bottom menu is open. Use to disable the game while a user is in the menu. @return {"playdeck": { "method": "isOpen", "value": boolean}}
   */
   getPlaydeckState: () => boolean
 
-  /** 
+  /**
    * Set Loader Progress.
-   * Use `loading(pct)`, to customize the bottom progress bar, pct in % [0..100]. 
+   * Use `loading(pct)`, to customize the bottom progress bar, pct in % [0..100].
    * Use this if you have a loader. **OR**
    * - Use `loading()` to start the animation from 0% to 80% and then wait
    * - Use `loading(100)` when all your assets have been downloaded to make the Play button available.
-   * @param {number | undefined} pct 
+   * @param {number | undefined} pct
   */
   loading: (pct: number | undefined) => void
 
   /** Call a gameEnd */
   gameEnd: () => void
 
-  /** 
-   * Get User Locale 
+  /**
+   * Get User Locale
    * @returns {"playdeck": {"method": "getUserLocale", "value": string}}
   */
   getUserLocale: () => Object
 
-  /** 
-   * Set Score 
-   * @param {number} score 
-   * @param {boolean} force - set this flag to `true` if the high score is allowed to decrease. This can be useful when fixing mistakes or banning cheaters 
+  /**
+   * Set Score
+   * @param {number} score
+   * @param {boolean} force - set this flag to `true` if the high score is allowed to decrease. This can be useful when fixing mistakes or banning cheaters
   */
   setScore: (score: number, force: boolean = false) => void
 
-  /** 
-   * Get Score from the card 
-   * @return 
-   * {"playdeck": 
+  /**
+   * Get Score from the card
+   * @return
+   * {"playdeck":
    *   {"method":"getScore" , "value": {\"position\":1,\"score\":73}}
-   * } **OR** 
-   * {"playdeck": 
-   *   { 
+   * } **OR**
+   * {"playdeck":
+   *   {
    *      "method":"getScore",
    *      value: {"error":{"type":"OBJECT_NOT_FOUND","message":"Game score not found","error":true}}
    *   }
-   * } 
+   * }
   */
   getScore: () => Object
 
-  /** 
-   * Get Global Score (maximum top 50) from the card 
-   * @return 
+  /**
+   * Get Global Score (maximum top 50) from the card
+   * @return
    * {
    *   "playdeck": {
    *     "method":"getScore" , "value": [{\"position\":1,\"score\":73}, \"username\":\"john\" ]
@@ -166,26 +166,26 @@ loading(100); // It will call the wrapper method, which will start rendering the
   */
   getGlobalScore: (top: number = 10) => Object
 
-  /** 
+  /**
    * Set Data - use to save arbitrary data in between sessions.
    * @param {string} data - value (limit 10Kb)
    * @param {string} key - key name (length limit 50 symbols) */
   setData: (key: string, data: string) => void
 
-  /** 
+  /**
    * Get Data - use to obtain saved data.
-   * @param {string} key - key name 
-   * @return 
+   * @param {string} key - key name
+   * @return
    * `{"playdeck":{
    *   "method":"getData",
    *   "value": {}}
-   * }` 
-   * **OR** 
+   * }`
+   * **OR**
    * `{"playdeck": {
    *   "method": "getData",
-   *   "value": "value", 
+   *   "value": "value",
    *   "key": "key"}
-   * }` 
+   * }`
   */
   getData: (key: string) => Object
 
@@ -203,7 +203,7 @@ loading(100); // It will call the wrapper method, which will start rendering the
   * Send game event to our intergation platform
   * @param {Event} event - event object with analytics
   */
-  sendAnalytics: (event:  Event) => void
+  sendAnalytics: (event: Event) => void
 
   /**
   * Get user profile
@@ -216,6 +216,18 @@ loading(100); // It will call the wrapper method, which will start rendering the
   * @return {string} - user JWT token
   */
   getToken: () => string
+
+  /**
+  * Send payment data in analytics
+  * @param {number} amount
+  * @param {string} currency
+  */
+  sendAnalyticNewPayment: (amount: number, currency: string) => void
+
+  /**
+  * Send new session event in analytics
+  */
+  sendAnalyticNewSession: () => void
 ```
 
 > Obviously, you can't call the method directly. We have saved the logic of constructing data for messages.
@@ -434,7 +446,7 @@ playdeck: {
     value:  'https://t.me/playdeckbot/market'
   }
 }, "*")
-  
+
 ```
 
 [`sendAnalytics: (event:  Event) =>  void`](#send-analytics)
@@ -464,7 +476,7 @@ const event_example: Event = {
   }
 }
 parent.postMessage({ playdeck: { method:  'sendAnalytics', value:  event_example } }, "*")
-  
+
 ```
 
 [`getUserProfile: () => Profile`](#get-user-profile)
@@ -507,4 +519,20 @@ window.addEventListener("message", ({ data }) => {
     console.log(playdeck.value) // { token: '123456789...' }
   }
 });
+```
+
+[`sendAnalyticNewPayment: (amount: number, currency: string) => void`](#send-analytic-new-payment)
+```javascript
+// This method allows you to send payment data in analytics
+
+const { parent } = window;
+parent.postMessage({ playdeck: { method: "sendAnalyticNewPayment", value: { amount, currency }}}, "*");
+```
+
+[`sendAnalyticNewSession: () => void`](#send-analytic-new-session)
+```javascript
+// This method allows you to send new session event in analytics
+
+const { parent } = window;
+parent.postMessage({ playdeck: { method: "Session" }}, "*");
 ```
