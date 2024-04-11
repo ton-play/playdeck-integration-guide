@@ -534,5 +534,5 @@ parent.postMessage({ playdeck: { method: "sendAnalyticNewPayment", value: { amou
 // This method allows you to send new session event in analytics
 
 const { parent } = window;
-parent.postMessage({ playdeck: { method: "Session" }}, "*");
+parent.postMessage({ playdeck: { method: "sendAnalyticNewSession" }}, "*");
 ```
