@@ -18,6 +18,8 @@ The process of passing data between your game and our Wrapper is via `window.pos
 - `loading()` . You need to call loading method within 0-3 sec from game loading started. This will be a signal to our wrapper that game start loading
 - `setScore()`. It is preferable that your game use scores after each level/game over/session etc depending on mechanics
 - The game should consider to use correct user locale for rendering proper UI texts. You can find locale by calling `getUser()` method OR use devices locale in order of prioriry: `(navigator.languages && navigator.languages.length) ? navigator.languages[0] : navigator.language;`
+- `sendAnalyticNewSession()`. You need to call the method to pass the information that the player is actually in the game.
+- `sendAnalyticNewPayment()`. You can use this method to send information about in-game purchases.
 
 ### FAQ
 ----
