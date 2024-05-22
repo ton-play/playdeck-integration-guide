@@ -57,6 +57,27 @@ Q: How will I know that the download has been completed?
 
 A: Upon reaching the end of the loading, the Wrapper will fire event `loaded`.
 
+Q: What is a webapp and a gameapp?
+
+A: These are two ways to launch games in telegram. In general, web app games are used in games with advertising, microtransactions, a referral system, and game app in simple games with scoring. Ask us what kind of launch your game has
+Differences in methods:
+
+| Method           | Webapp | Gameapp |
+| -----------------| ------ | ------- |
+| openTelegramLink |   ✅   |   ❌    |
+| customShare      |   ✅   |   ❌    |
+| getUrlParams     |   ✅   |   ❌    |
+| setScore         |   ❌   |   ✅    |
+| getScore         |   ❌   |   ✅    |
+| getGlobalScore   |   ❌   |   ✅    |
+
+The other methods are supported in both ways
+
+Q: Is it possible to implement the functionality of a referral system or game rooms?
+
+A: Yes. Our platform supports format links: https://t.me/playdeckbot/market?startapp=eyJnYW1lIjp7I... The params "startparam" contains a non-standard jwt. 
+These links can be obtained inside the game using the "customShare" method, but only in webapp game
+
 #### Let's look at an example of listening to messages and processing data from our Wrapper.
 
 ```javascript
@@ -131,7 +152,7 @@ loading(100); // It will call the wrapper method, which will start rendering the
 
   /**
    * Get User Locale
-   * @returns {"playdeck": {"method": "getUserLocale", "value": string}}
+   * @returns {"playdeck": {"method": "getUserLocale", "value": 'en' | 'ru'}}
   */
   getUserLocale: () => Object
 
@@ -139,6 +160,7 @@ loading(100); // It will call the wrapper method, which will start rendering the
    * Set Score
    * @param {number} score
    * @param {boolean} force - set this flag to `true` if the high score is allowed to decrease. This can be useful when fixing mistakes or banning cheaters
+   * It is supported only in gameapp games
   */
   setScore: (score: number, force: boolean = false) => void
 
@@ -154,6 +176,7 @@ loading(100); // It will call the wrapper method, which will start rendering the
    *      value: {"error":{"type":"OBJECT_NOT_FOUND","message":"Game score not found","error":true}}
    *   }
    * }
+   * It is supported only in gameapp games
   */
   getScore: () => Object
 
@@ -165,6 +188,7 @@ loading(100); // It will call the wrapper method, which will start rendering the
    *     "method":"getScore" , "value": [{\"position\":1,\"score\":73}, \"username\":\"john\" ]
    *   }
    * }
+   * It is supported only in gameapp games
   */
   getGlobalScore: (top: number = 10) => Object
 
@@ -198,6 +222,7 @@ loading(100); // It will call the wrapper method, which will start rendering the
   * -- if link is telegram link (t.me, telegram.me) --> open inside internal telegram browser
   * -- if link to external resource (google.com, etc) --> open in an external browser
   * @param {string} url - url to resource that need to be opened
+  * It is supported only in webapp games
   */
   openTelegramLink: (url:  string) =>  void
 
@@ -214,10 +239,27 @@ loading(100); // It will call the wrapper method, which will start rendering the
   getUserProfile: () => Profile
 
   /**
+  * Get the query string that the game opened with. You can also get these parameters via method getUserProfile
+  * You can create a link with a query string using the customShare method
+  * @return  {[key: string]: string}
+  * It is supported only in webapp games
+  */
+  getUrlParams: () => Object
+
+  /**
   * Get token
   * @return {string} - user JWT token
   */
   getToken: () => string
+
+  /**
+  * Creating a link with a query string and starts the share procedure 
+  * You can get a query string from the game using the following methods getUrlParams and getUserProfile
+  * @param {object} - parameters
+  * @return {string} - link to the game with parameters
+  * It is supported only in webapp games
+  */
+  customShare: () => string
 
   /**
   * Send payment data in analytics
@@ -328,6 +370,7 @@ window.addEventListener("message", ({ data }) => {
 [`getUserLocale: () => Object`](#get-user-locale)
 ```javascript
 // This method will query our integration framework for information about the user's locale.
+// You can also get these parameters via method getUserProfile
 
 const { parent } = window;
 parent.postMessage({ playdeck: { method: "getUserLocale" } }, "*");
@@ -349,6 +392,8 @@ window.addEventListener("message", ({ data }) => {
 // The method works one-way and does not require reading the response.
 // Set `force` flag to `true` if the high score is allowed to decrease.
 // This can be useful when fixing mistakes or banning cheaters
+//
+// It is supported only in gameapp games
 
 const { parent } = window;
 
@@ -367,6 +412,8 @@ parent.postMessage(
 ```javascript
 // This method allows you to read a previously saved count value.
 // Use the `setScore` method to store the score.
+//
+// It is supported only in gameapp games.
 
 const { parent } = window;
 parent.postMessage({ playdeck: { method: "getScore" } }, "*");
@@ -428,6 +475,7 @@ window.addEventListener("message", ({ data }) => {
 // On mobile clients:
 // -- if link is telegram link (t.me, telegram.me) --> opens inside // telegram's internal browser
 // -- if link to external resource (google.com, etc) --> open in an // external browser
+// It is supported only in webapp games
 
 const { parent } =  window;
 
@@ -491,6 +539,9 @@ type Profile = {
   firstName: string;
   lastName: string;
   telegramId: number;
+  locale: 'en'| 'ru';
+  params: {[key: string]: string}; // the query string that the game opened with
+  sessionId: string;
 }
 
 const { parent } = window;
@@ -519,6 +570,48 @@ window.addEventListener("message", ({ data }) => {
 
   if (playdeck.method === "getToken") {
     console.log(playdeck.value) // { token: '123456789...' }
+  }
+});
+```
+
+[`getUrlParams: () => Params`](#get-url-params)
+```javascript
+  // Get the query string that the game opened with. You can also get these parameters via method getUserProfile.
+  // You can create a link with a query string to the game using the method customShare
+  // It is supported only in webapp games
+
+type Params = {
+  [key: string]: string
+}
+
+const { parent } = window;
+parent.postMessage({ playdeck: { method: "getUrlParams" } }, "*");
+
+window.addEventListener("message", ({ data }) => {
+  const playdeck = data?.playdeck;
+  if (!playdeck) return;
+
+  if (playdeck.method === "getUrlParams") {
+    console.log(playdeck.value) // Params
+  }
+});
+```
+
+[`customShare: (object) => string`](#custom-share)
+```javascript
+  // Creating a telegram link with a query string and starts the share procedure
+  // You can get a query string from the game using the following methods getUrlParams and getUserProfile
+  // It is supported only in webapp games
+
+const { parent } = window;
+parent.postMessage({ playdeck: { method: "customShare", value: {[key: string]: string} } }, "*");
+
+window.addEventListener("message", ({ data }) => {
+  const playdeck = data?.playdeck;
+  if (!playdeck) return;
+
+  if (playdeck.method === "customShare") {
+    console.log(playdeck.value) // link to the game
   }
 });
 ```
