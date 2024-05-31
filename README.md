@@ -32,7 +32,7 @@ See the [Wiki](https://github.com/ton-play/playdeck-integration-guide/wiki) for 
 
 * [**loading()**](https://github.com/ton-play/playdeck-integration-guide/wiki/2.-Integration-guide#4-exchange-of-information-with-the-wrapper) At the start of the game loading process, it's essential to transmit loading (1), and similarly, at the end when the game has finished loading (100). If the loading progress reaching 100% is not signaled, the Play button within the wrapper won't become active.
 
-* The game should consider to use correct user locale for rendering proper UI texts. You can find locale by calling [`getUserProfile()`](https://github.com/ton-play/playdeck-integration-guide/wiki/2.-Integration-guide#1-getting-user-information) method OR use devices locale in order of prioriry: `(navigator.languages && navigator.languages.length) ? navigator.languages[0] : navigator.language;`
+* The game should consider to use correct user locale for rendering proper UI texts. You can find locale by calling [**getUserProfile()**](https://github.com/ton-play/playdeck-integration-guide/wiki/2.-Integration-guide#1-getting-user-information) method OR use devices locale in order of prioriry: `(navigator.languages && navigator.languages.length) ? navigator.languages[0] : navigator.language;`
 
 * [**setData()/getData()**](https://github.com/ton-play/playdeck-integration-guide/wiki/2.-Integration-guide#2-cloud-save) It can be utilized for cloud saving and cross-device experiences. For example, if your game has levels or your players accumulate some in-game bonuses, you can save and share that information using these methods so that you do not ruin the user experience. This can also be implemented through other methods on the developer side.
 
