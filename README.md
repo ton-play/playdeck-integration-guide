@@ -57,6 +57,17 @@ window.addEventListener('message', ({ data }) => {
     window.playdeckIsOpen = data.value;
   }
 });
+
+const { parent } = window
+
+const payload = {
+  playdeck: {
+  method: 'getPlaydeckState',
+  },
+};
+
+// calling the method
+parent.postMessage(payload, '*');
 ```
 
 > In your example, we track the event of pressing the "play" button in the playdeck-menu, and also get the result of the [getPlaydeckState](https://github.com/ton-play/playdeck-integration-guide/wiki/2.-Integration-guide#4-exchange-of-information-with-the-wrapper) method.
