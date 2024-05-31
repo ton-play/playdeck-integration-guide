@@ -1,6 +1,15 @@
 # Introduction
 
+
+* [What Is PlayDeck?](#what-is-playdeck)
+* [Full Documentation](#full-documentation)
+* [Quick Overview](#some-methods-are-mandatory-to-be-implemented)
+* [Contact Us](#contact-us)
+
+  
+
 What Is PlayDeck?
+
 PlayDeck is a Telegram-native gaming marketplace that empowers game developers to showcase their games on one of the fastest-growing social platforms. With PlayDeck toolkit solutions, you can launch Web2 and Web3 games on Telegram and use all the benefits of social and referral mechanics to boost traffic and revenue.
 
 Games in PlayDeck can vary in genre, complexity, and gameplay mechanics. They can range from simple arcade-style games to more intricate multiplayer experiences. PlayDeck games are lightweight and accessible, and users can play them seamlessly within the Telegram app without downloads or installation.
