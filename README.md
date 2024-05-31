@@ -61,7 +61,7 @@ window.addEventListener('message', ({ data }) => {
 
 > In your example, we track the event of pressing the "play" button in the playdeck-menu, and also get the result of the [getPlaydeckState](https://github.com/ton-play/playdeck-integration-guide/wiki/2.-Integration-guide#4-exchange-of-information-with-the-wrapper) method.
 > Obviously, you can't call the method directly. We have saved the logic of constructing data for messages.
-> For example, you want to use the `loading` method. To do this, you need to create an object with 2 fields: `method`, `value`
+> For example, you want to use the [`loading`](https://github.com/ton-play/playdeck-integration-guide/wiki/2.-Integration-guide#4-exchange-of-information-with-the-wrapper) method. To do this, you need to create an object with 2 fields: `method`, `value`
 > Where the value of the `method` field will be the name of the method to be called, and the `value` field will be the loading state data.
 
 #### Message Example
