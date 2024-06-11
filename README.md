@@ -103,7 +103,7 @@ You can find usage examples and detailed information on each method in [our guid
 # Contact Us
 
 - Typeform: [submit your game](https://form.typeform.com/to/n0ANU3Qm?typeform-source=tonplay.io)
-- Telegram: [@tonplay_devs](https://t.me/tonplay_devs)
+- Telegram: [@playdeck_devs](https://t.me/playdeck_devs)
 - Website: [tonplay.io](http://tonplay.io)
 - Our game platform: [PlayDeck](https://t.me/playdeckbot)
 
