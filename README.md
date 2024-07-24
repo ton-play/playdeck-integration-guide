@@ -47,7 +47,7 @@ The process of passing data between your game and our Wrapper is via `window.pos
 ```javascript
 // Creating an event listener playdeck
 window.addEventListener('message', ({ data }) => {
-  if (!message || !message['playdeck']) return;
+  if (!data || !data['playdeck']) return;
 
   pdData = data['playdeck'];
 
