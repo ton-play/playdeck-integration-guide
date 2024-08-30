@@ -62,8 +62,8 @@ window.addEventListener('message', ({ data }) => {
   }
   
   // Getting the playdeck-menu status, after using the getPlaydeckState method
-  if (pdData.method === 'isOpen') {
-    window.playdeckIsOpen = data.value;
+  if (pdData.method === 'getPlaydeckState') {
+    window.playdeckIsOpen = data.value; // if true, then the playlist is open
   }
 });
 
