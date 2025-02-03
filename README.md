@@ -8,7 +8,7 @@
 
   
 
-**What Is PlayDeck?**
+# What Is PlayDeck?
 
 PlayDeck is a Telegram-native gaming marketplace that empowers game developers to showcase their games on one of the fastest-growing social platforms. With PlayDeck toolkit solutions, you can launch Web2 and Web3 games on Telegram and use all the benefits of social and referral mechanics to boost traffic and revenue.
 
@@ -30,11 +30,11 @@ See the [**Wiki**](https://github.com/ton-play/playdeck-integration-guide/wiki) 
 
 # Some methods are mandatory to be implemented:
 
-* [**loading()**](https://github.com/ton-play/playdeck-integration-guide/wiki/2.-Integration-guide#4-exchange-of-information-with-the-wrapper) At the start of the game loading process, it's essential to transmit loading (1), and similarly, at the end when the game has finished loading (100). If the loading progress reaching 100% is not signaled, the Play button within the wrapper won't become active.
+* [**loading()**](https://github.com/ton-play/playdeck-integration-guide/wiki/Available-methods#loading-pct-number--undefined--void) At the start of the game loading process, it's essential to transmit loading (1), and similarly, at the end when the game has finished loading (100). If the loading progress reaching 100% is not signaled, the Play button within the wrapper won't become active.
 
-* The game should consider to use correct user locale for rendering proper UI texts. You can find locale by calling [**getUserProfile()**](https://github.com/ton-play/playdeck-integration-guide/wiki/2.-Integration-guide#1-getting-user-information) method OR use devices locale in order of prioriry: `(navigator.languages && navigator.languages.length) ? navigator.languages[0] : navigator.language;`
+* The game should consider to use correct user locale for rendering proper UI texts. You can find locale by calling [**getUserProfile()**](https://github.com/ton-play/playdeck-integration-guide/wiki/Available-methods#getuserprofile---profile) method OR use devices locale in order of prioriry: `(navigator.languages && navigator.languages.length) ? navigator.languages[0] : navigator.language;`
 
-* [**setData()/getData()**](https://github.com/ton-play/playdeck-integration-guide/wiki/2.-Integration-guide#2-cloud-save) It can be utilized for cloud saving and cross-device experiences. For example, if your game has levels or your players accumulate some in-game bonuses, you can save and share that information using these methods so that you do not ruin the user experience. This can also be implemented through other methods on the developer side.
+* [**setData()/getData()**](https://github.com/ton-play/playdeck-integration-guide/wiki/Available-methods#cloud-save) It can be utilized for cloud saving and cross-device experiences. For example, if your game has levels or your players accumulate some in-game bonuses, you can save and share that information using these methods so that you do not ruin the user experience. This can also be implemented through other methods on the developer side.
 
 ---
 
@@ -79,9 +79,9 @@ const payload = {
 parent.postMessage(payload, '*');
 ```
 
-> In your example, we track the event of pressing the "play" button in the playdeck-menu, and also get the result of the [getPlaydeckState](https://github.com/ton-play/playdeck-integration-guide/wiki/2.-Integration-guide#4-exchange-of-information-with-the-wrapper) method.
+> In your example, we track the event of pressing the "play" button in the playdeck-menu, and also get the result of the [getPlaydeckState](https://github.com/ton-play/playdeck-integration-guide/wiki/Available-methods#getplaydeckstate---boolean) method.
 > Obviously, you can't call the method directly. We have saved the logic of constructing data for messages.
-> For example, you want to use the [`loading`](https://github.com/ton-play/playdeck-integration-guide/wiki/2.-Integration-guide#4-exchange-of-information-with-the-wrapper) method. To do this, you need to create an object with 2 fields: `method`, `value`
+> For example, you want to use the [`loading`](https://github.com/ton-play/playdeck-integration-guide/wiki/Available-methods#loading-pct-number--undefined--void) method. To do this, you need to create an object with 2 fields: `method`, `value`
 > Where the value of the `method` field will be the name of the method to be called, and the `value` field will be the loading state data.
 
 #### Message Example
@@ -98,12 +98,11 @@ parent.postMessage(payload, '*');
 ```
 
 
-You can find usage examples and detailed information on each method in [our guide](https://github.com/ton-play/playdeck-integration-guide/wiki/2.-Integration-guide).
+You can find usage examples and detailed information on each method in [our guide](https://github.com/ton-play/playdeck-integration-guide/wiki/Available-methods).
 
 # Contact Us
 
-- Typeform: [submit your game](https://form.typeform.com/to/n0ANU3Qm?typeform-source=tonplay.io)
-- Telegram: [@playdeck_devs](https://t.me/playdeck_devs)
-- Website: [tonplay.io](http://tonplay.io)
-- Our game platform: [PlayDeck](https://t.me/playdeckbot)
+- Telegram bot for Initial contact: [@PlayDeckInfoBot](https://t.me/PlayDeckInfoBot)
+- More about PlayDeck: [playdeck.io](https://playdeck.io) 
+- Try our game platform: [PlayDeck](https://t.me/playdeckbot)
 
