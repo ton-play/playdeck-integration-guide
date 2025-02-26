@@ -26,6 +26,8 @@ If you already have a game built on HTML5 or WebGL (Unity, Phaser, PixiJS, Babyl
 
 See the [**Wiki**](https://github.com/ton-play/playdeck-integration-guide/wiki) for full documentation, examples, operational details and other information.
 
+We have also [**special library**](https://github.com/ton-play/playdeck-unity-integration) for **Unity** projects
+
 ---
 
 # Some methods are mandatory to be implemented:
